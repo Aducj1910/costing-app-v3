@@ -21,6 +21,7 @@ class App extends Component {
     xShirtMask: 0,
     xPocket: 0,
     xCollar: 0,
+    xComponent: 0,
     patternURL: null,
     cost: 0,
     dataPassed: false,
@@ -41,6 +42,9 @@ class App extends Component {
     patternComp: null,
     removeBgSwitch: false,
     componentSaveSwitch: false,
+    finalComponentArray: [],
+    finalComponentName: null,
+    componentRenderSwitch: false,
   };
 
   // componentDidMount() {
@@ -72,6 +76,20 @@ class App extends Component {
       .catch((error) => console.log(error));
   };
 
+  handleComponentImport = () => {
+    db.collection("componentsFinal")
+      .get()
+      .then((snapshot) => {
+        let pvtCompArray = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          pvtCompArray.push(data);
+        });
+        this.setState({ finalComponentArray: pvtCompArray });
+      })
+      .catch((error) => console.lof(error));
+  };
+
   // addNewPattern = () => {
   //   db.collection("patterns").add({
   //     comp:
@@ -84,6 +102,12 @@ class App extends Component {
   handlePattern = (pattern) => {
     let xPattern = pattern;
     this.setState({ xPattern });
+    this.getCost();
+  };
+
+  handleComponent = (component) => {
+    let xComponent = component;
+    this.setState({ xComponent, componentRenderSwitch: true });
     this.getCost();
   };
 
@@ -119,6 +143,10 @@ class App extends Component {
     } else if (this.state.xPattern === "custom") {
       patternCost = 250;
     }
+
+    let componentCost = this.state.finalComponentArray[this.state.xComponent]
+      .cost;
+
     let shirtArray = getShirts();
     let shirtCost = shirtArray[this.state.xShirt].cost;
     let pocketArray = getPockets();
@@ -126,7 +154,8 @@ class App extends Component {
     let collarArray = getCollars();
     let collarCost = collarArray[this.state.xCollar].cost;
 
-    let totalCost = patternCost + shirtCost + pocketCost + collarCost;
+    let totalCost =
+      patternCost + shirtCost + pocketCost + collarCost + componentCost;
     this.setState({ cost: totalCost });
   };
 
@@ -156,6 +185,10 @@ class App extends Component {
     this.setState({ componentName: event.target.value });
   };
 
+  handleFinalComponentName = (event) => {
+    this.setState({ finalComponentName: event.target.value });
+  };
+
   handleClearScreen = () => {
     this.setState({ clearScreenSwitch: true });
   };
@@ -171,11 +204,20 @@ class App extends Component {
   compileComponents = (fileTypeSwitch) => {
     let localComponentArray = this.state.componentArray;
     let componentFiles = [];
-    if (fileTypeSwitch == "MainComponent") {
+    if (
+      fileTypeSwitch == "MainComponent" &&
+      this.state.componentFiles !== null
+    ) {
       componentFiles = Array.from(this.state.componentFiles);
-    } else if (fileTypeSwitch == "MaskComponent") {
+    } else if (
+      fileTypeSwitch == "MaskComponent" &&
+      this.state.componentMaskFiles !== null
+    ) {
       componentFiles = Array.from(this.state.componentMaskFiles);
-    } else if (fileTypeSwitch == "PatternComponent") {
+    } else if (
+      fileTypeSwitch == "PatternComponent" &&
+      this.state.componentPatternFiles !== null
+    ) {
       componentFiles = Array.from(this.state.componentPatternFiles);
     }
 
@@ -300,6 +342,11 @@ class App extends Component {
                 patternArray={this.state.patternArray}
                 onImport={this.handleImport}
                 onAddNew={this.handleAddNew}
+                onComponentImport={this.handleComponentImport}
+                finalComponentArray={this.state.finalComponentArray}
+                xComponent={this.state.xComponent}
+                onComponent={this.handleComponent}
+                componentRenderSwitch={this.state.componentRenderSwitch}
               />
             </Route>
             <Route path="/components" exact>
@@ -322,6 +369,8 @@ class App extends Component {
                 removeBgSwitch={this.state.removeBgSwitch}
                 onComponentSave={this.handleComponentSave}
                 componentSaveSwitch={this.state.componentSaveSwitch}
+                finalComponentName={this.state.finalComponentName}
+                onFinalComponentName={this.handleFinalComponentName}
               />
             </Route>
           </Switch>

@@ -14,6 +14,7 @@ const SetupCanvas = (props) => {
     patternComp,
     removeBgSwitch,
     componentSaveSwitch,
+    finalComponentName,
   } = props;
 
   useEffect(() => {
@@ -71,6 +72,8 @@ const SetupCanvas = (props) => {
 
           db.collection("componentsFinal").add({
             comp: imgdata,
+            name: finalComponentName,
+            cost: 50,
           });
 
           // window.location.href = imgdata;

@@ -14,9 +14,12 @@ const Canvas = (props) => {
     xShirtMask,
     xPocket,
     xCollar,
+    xComponent,
     pickedColor,
     patternURL,
     patternArray,
+    finalComponentArray,
+    componentRenderSwitch,
   } = props;
   const canvasRef = useRef(null);
   // const patternArray = getPatterns();
@@ -29,6 +32,13 @@ const Canvas = (props) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+    let finalComponent = new Image();
+    finalComponent.src = "";
+    console.log(componentRenderSwitch);
+    if (componentRenderSwitch) {
+      finalComponent.src = finalComponentArray[xComponent].comp;
+    }
 
     const drawShirt = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -46,6 +56,7 @@ const Canvas = (props) => {
           ctx.drawImage(shirt, 0, 0);
           ctx.drawImage(pocket, 10, 10);
           ctx.drawImage(collar, 1, 3.5);
+          ctx.drawImage(finalComponent, 1, 3.5);
           ctx.drawImage(shirtMask, 0, 0);
         };
       } else if (xPattern === "blank") {
@@ -59,6 +70,7 @@ const Canvas = (props) => {
         ctx.drawImage(shirt, 0, 0);
         ctx.drawImage(pocket, 10, 10);
         ctx.drawImage(collar, 1, 3.5);
+        ctx.drawImage(finalComponent, 1, 3.5);
         ctx.drawImage(shirtMask, 0, 0);
       } else if (xPattern === "custom") {
         console.log(patternURL);
@@ -74,6 +86,7 @@ const Canvas = (props) => {
           ctx.drawImage(shirt, 0, 0);
           ctx.drawImage(pocket, 10, 10);
           ctx.drawImage(collar, 1, 3.5);
+          ctx.drawImage(finalComponent, 1, 3.5);
           ctx.drawImage(shirtMask, 0, 0);
         };
       }

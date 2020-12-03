@@ -6,6 +6,7 @@ import PocketDropDown from "./pocketDropDown";
 import CollarDropDown from "./collarDropDown";
 import { ChromePicker } from "react-color";
 import { Button } from "react-bootstrap";
+import ComponentDropDown from "./componentDropDown";
 
 class MainPage extends Component {
   state = { background: "#ffffff" };
@@ -25,7 +26,13 @@ class MainPage extends Component {
             className="btn-danger ml-4 mt-2"
             onClick={this.props.onImport}
           >
-            Import
+            Import Patterns
+          </Button>
+          <Button
+            className="btn-danger ml-4 mt-2"
+            onClick={this.props.onComponentImport}
+          >
+            Import Components
           </Button>
           <Button className="btn-success ml-2" onClick={this.props.onAddNew}>
             Add New
@@ -47,6 +54,12 @@ class MainPage extends Component {
             </div>
             <div className="row m-2">
               <CollarDropDown onCollar={this.props.onCollar} />
+            </div>
+            <div className="row m-2">
+              <ComponentDropDown
+                finalComponentArray={this.props.finalComponentArray}
+                onComponent={this.props.onComponent}
+              />
             </div>
             <div className="row ml-2">
               <h4>
@@ -75,9 +88,12 @@ class MainPage extends Component {
               xShirtMask={this.props.xShirtMask}
               xPocket={this.props.xPocket}
               xCollar={this.props.xCollar}
+              xComponent={this.props.xComponent}
               pickedColor={this.state.background}
               patternURL={this.props.patternURL}
               patternArray={this.props.patternArray}
+              finalComponentArray={this.props.finalComponentArray}
+              componentRenderSwitch={this.props.componentRenderSwitch}
             ></Canvas>
           </div>
         </div>

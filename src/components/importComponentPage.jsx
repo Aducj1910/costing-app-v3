@@ -22,6 +22,7 @@ class ImportComponentPage extends Component {
               clearScreenSwitch={this.props.clearScreenSwitch}
               removeBgSwitch={this.props.removeBgSwitch}
               componentSaveSwitch={this.props.componentSaveSwitch}
+              finalComponentName={this.props.finalComponentName}
             />
           </div>
           <div className="col m-1">
@@ -29,11 +30,11 @@ class ImportComponentPage extends Component {
               type="file"
               onChange={this.props.onHandleComponentFiles}
             ></input>
-            <input
+            {/* <input
               className="m-2"
               type="text"
               onChange={this.props.onComponentName}
-            ></input>
+            ></input> */}
             <Button
               className="btn-success"
               onClick={() => this.props.onCompileComponents("MainComponent")}
@@ -48,11 +49,11 @@ class ImportComponentPage extends Component {
             type="file"
             onChange={this.props.onHandleComponentMaskFiles}
           ></input>
-          <input
+          {/* <input
             className="m-2"
             type="text"
             onChange={this.props.onComponentName}
-          ></input>
+          ></input> */}
           <Button
             className="btn-success"
             onClick={() => this.props.onCompileComponents("MaskComponent")}
@@ -65,29 +66,36 @@ class ImportComponentPage extends Component {
           <Button className="btn-warning m-1" onClick={this.props.onBgRemove}>
             Clear mask
           </Button>
-          <Button
-            className="btn-primary m-1"
-            onClick={this.props.onComponentSave}
-          >
-            Save
-          </Button>
         </div>
         <div className="row m-2">
           <input
             type="file"
             onChange={this.props.onHandleComponentPatternFiles}
           ></input>
-          <input
+          {/* <input
             className="m-2"
             type="text"
             onChange={this.props.onComponentName}
-          ></input>
+          ></input> */}
           <Button
             className="btn-success"
             onClick={() => this.props.onCompileComponents("PatternComponent")}
           >
             Pattern Upload Done
           </Button>
+        </div>
+        <div className="row m-2">
+          <Button
+            className="btn-primary m-1"
+            onClick={this.props.onComponentSave}
+          >
+            Save
+          </Button>
+          <input
+            className="m-2"
+            type="text"
+            onChange={this.props.onFinalComponentName}
+          ></input>
         </div>
       </div>
     );
