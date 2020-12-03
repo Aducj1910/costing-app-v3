@@ -40,6 +40,7 @@ class App extends Component {
     maskArray: [],
     patternComp: null,
     removeBgSwitch: false,
+    componentSaveSwitch: false,
   };
 
   // componentDidMount() {
@@ -163,6 +164,10 @@ class App extends Component {
     this.setState({ removeBgSwitch: true });
   };
 
+  handleComponentSave = () => {
+    this.setState({ componentSaveSwitch: true });
+  };
+
   compileComponents = (fileTypeSwitch) => {
     let localComponentArray = this.state.componentArray;
     let componentFiles = [];
@@ -203,6 +208,7 @@ class App extends Component {
                 clearScreenSwitch: false,
                 componentFiles: null,
                 removeBgSwitch: false,
+                componentSaveSwitch: false,
               });
             } else if (fileTypeSwitch == "MaskComponent") {
               this.setState({
@@ -210,12 +216,16 @@ class App extends Component {
                 maskComp: e.target.result,
                 clearScreenSwitch: false,
                 componentMaskFiles: null,
+                removeBgSwitch: false,
+                componentSaveSwitch: false,
               });
             } else if (fileTypeSwitch == "PatternComponent") {
               this.setState({
                 patternComp: e.target.result,
                 clearScreenSwitch: false,
                 componentPatternFiles: null,
+                removeBgSwitch: false,
+                componentSaveSwitch: false,
               });
             }
           }.bind(this);
@@ -310,6 +320,8 @@ class App extends Component {
                 clearScreenSwitch={this.state.clearScreenSwitch}
                 onBgRemove={this.handleBgRemove}
                 removeBgSwitch={this.state.removeBgSwitch}
+                onComponentSave={this.handleComponentSave}
+                componentSaveSwitch={this.state.componentSaveSwitch}
               />
             </Route>
           </Switch>

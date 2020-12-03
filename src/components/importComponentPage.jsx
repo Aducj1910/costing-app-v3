@@ -21,6 +21,7 @@ class ImportComponentPage extends Component {
               patternComp={this.props.patternComp}
               clearScreenSwitch={this.props.clearScreenSwitch}
               removeBgSwitch={this.props.removeBgSwitch}
+              componentSaveSwitch={this.props.componentSaveSwitch}
             />
           </div>
           <div className="col m-1">
@@ -62,7 +63,13 @@ class ImportComponentPage extends Component {
             Clear Screen
           </Button>
           <Button className="btn-warning m-1" onClick={this.props.onBgRemove}>
-            Clear mask and save
+            Clear mask
+          </Button>
+          <Button
+            className="btn-primary m-1"
+            onClick={this.props.onComponentSave}
+          >
+            Save
           </Button>
         </div>
         <div className="row m-2">

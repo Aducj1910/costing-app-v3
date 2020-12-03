@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useRef } from "react";
 import { InputGroup } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { db, auth } from "../services/firebase";
 
 const SetupCanvas = (props) => {
   const canvasRef = useRef(null);
@@ -12,6 +13,7 @@ const SetupCanvas = (props) => {
     clearScreenSwitch,
     patternComp,
     removeBgSwitch,
+    componentSaveSwitch,
   } = props;
 
   useEffect(() => {
@@ -52,7 +54,7 @@ const SetupCanvas = (props) => {
             let g = imgd[i + 1];
             let b = imgd[i + 2];
 
-            if (r == 7 && g == 0 && b == 140) {
+            if (r === 7 && g === 0 && b === 140) {
               imgd[i] = replacementColor.r;
               imgd[i + 1] = replacementColor.g;
               imgd[i + 2] = replacementColor.b;
@@ -60,6 +62,19 @@ const SetupCanvas = (props) => {
             }
           }
           ctx.putImageData(imgcap, 0, 0);
+        }
+
+        if (componentSaveSwitch) {
+          let imgdata = canvas
+            .toDataURL("imgdata/png")
+            .replace("imgdata/png", "imgdata/octet-stream");
+
+          db.collection("componentsFinal").add({
+            comp: imgdata,
+          });
+
+          // window.location.href = imgdata;
+          // console.log(imgdata);
         }
       };
     };
